@@ -38,4 +38,4 @@ Desktop.ini
 *.sln.docstates
 
 #Ingoring Workspace Direcootries
-.metadata/
+**/.metadata/
