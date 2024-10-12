@@ -1,0 +1,41 @@
+# Ignore Python cache and environment files
+__pycache__/
+*.py[cod]
+
+# Ignore node.js dependencies
+node_modules/
+
+# Ignore environment and configuration files
+.env
+
+# Ignore log files
+*.log
+
+# Ignore build directories (for Java, C++, etc.)
+build/
+bin/
+out/
+target/
+
+# Ignore IDE config files (for VSCode, IntelliJ, etc.)
+.vscode/
+.idea/
+
+# Ignore temporary or backup files
+*.tmp
+*.bak
+*.swp
+
+# Ignore Windows specific files
+Thumbs.db
+Desktop.ini
+
+# Ignore Visual Studio specific files
+.vs/
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+
+#Ingoring Workspace Direcootries
+.metadata/
