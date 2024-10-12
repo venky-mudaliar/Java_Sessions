@@ -1,0 +1,56 @@
+package application;
+
+import blueprints.BankAccount;
+
+public class BankSystem {
+	public static void main(String[] args)
+	{
+		// CHAPTER - OBJECTS
+		// Creating objects (Bank Accounts) from the BankAccount class
+        BankAccount simpleBankObject = new BankAccount();
+        simpleBankObject.accountHolderName = "LazyCoffee"; // Setting the account holder name
+        simpleBankObject.accountNumber = "24";             // Setting the account number
+        simpleBankObject.balance = 1500;                   // Setting an initial balance
+
+        // CHAPTER - METHODS
+        // Accessing the behavior (methods) of the objects
+        // Instance Method: Checking the balance of the account
+        simpleBankObject.checkBalance();
+
+        // Static Method: Getting the bank name without creating an object
+        System.out.println("Bank Name: " + BankAccount.getBankName());
+
+        // Void Method: Depositing an amount of money
+        simpleBankObject.deposit(2500);  // Depositing 2500
+
+        // Parameterized Method: Withdrawing an amount of money
+        simpleBankObject.withdraw(500);  // Withdrawing 500
+
+        // Check balance again after transactions
+        simpleBankObject.checkBalance();
+        
+        
+        /// CHAPTER - METHOD OVERLOADING
+        // Calling different overloaded versions of the deposit method
+        simpleBankObject.deposit(100.0);  // Simple deposit
+        simpleBankObject.deposit(200.0, "Savings");  // Deposit with a message
+        simpleBankObject.deposit("CHK123456", 500.0);  // Deposit via check
+        simpleBankObject.checkBalance();
+        
+        
+        // CHAPTERS - CONSTRUCTORS
+        // Creating objects (Bank Accounts) from the BankAccount class using constructors
+        // Using default constructor
+        BankAccount defaultAccount = new BankAccount();
+        defaultAccount.checkBalance(); // Should show default values
+
+        // Using parameterized constructor with all details
+        BankAccount customAccount = new BankAccount("LazyCoffee", "24", 1500);
+        customAccount.checkBalance(); // Should show initialized values
+
+        // Using constructor with only the account holder name (constructor chaining will apply)
+        BankAccount simpleAccount = new BankAccount("SimpleUser");
+        simpleAccount.checkBalance(); // Should show default balance and account number
+        
+	}
+}

@@ -1,0 +1,60 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    // Temporary list to simulate a database
+    private List<User> users = new ArrayList<>();
+
+    // GET all users
+    @GetMapping
+    public List<User> getAllUsers() {
+        return users;
+    }
+
+    // GET a specific user by ID
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return users.stream()
+                    .filter(user -> user.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+    }
+
+    // POST to create a new user
+    @PostMapping
+    public User createUser(@RequestBody User newUser) {
+        users.add(newUser);
+        return newUser;
+    }
+
+    // PUT to update an existing user
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = users.stream()
+                         .filter(u -> u.getId().equals(id))
+                         .findFirst()
+                         .orElse(null);
+
+        if (user != null) {
+            user.setFirstName(updatedUser.getFirstName());
+            user.setLastName(updatedUser.getLastName());
+            user.setEmail(updatedUser.getEmail());
+        }
+
+        return user;
+    }
+
+    // DELETE a user by ID
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        users.removeIf(user -> user.getId().equals(id));
+    }
+}
+

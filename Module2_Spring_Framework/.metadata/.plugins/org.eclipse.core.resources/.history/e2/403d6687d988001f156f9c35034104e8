@@ -1,0 +1,5 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring.jwtutils;
+
+public class CustomUserDetailsService {
+
+}

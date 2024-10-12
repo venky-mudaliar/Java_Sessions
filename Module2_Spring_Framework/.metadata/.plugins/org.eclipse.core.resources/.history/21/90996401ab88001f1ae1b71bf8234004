@@ -1,0 +1,9 @@
+
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PublicController {
+
+}

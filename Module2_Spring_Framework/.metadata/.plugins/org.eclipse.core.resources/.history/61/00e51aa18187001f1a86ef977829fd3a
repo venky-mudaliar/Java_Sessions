@@ -1,0 +1,8 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+public class HelloWorldController {
+	@GetMapping("/")
+    public String sayHello() {
+        return "Hello, World!";
+    }
+}

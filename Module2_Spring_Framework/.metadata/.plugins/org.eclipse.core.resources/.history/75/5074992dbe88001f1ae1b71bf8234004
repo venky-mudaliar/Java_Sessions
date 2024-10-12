@@ -1,0 +1,34 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;  
+// Import this for `withDefaults()` part of the Spring Security package that allows configuring default settings for certain components, like httpBasic()
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+	
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+        	.csrf(csrf -> csrf.disable())  // Disable CSRF protection for API endpoints //By default, Spring Security enables CSRF protection, which can block non-browser clients (like Postman or cURL) from making POST, PUT, DELETE, and PATCH requests if no CSRF token is provided.
+        									// hence we Disable CSRF Protection for API Endpoints whiele development. or we could implement CSRF token handling.
+        	.authorizeHttpRequests(authorizeRequests ->
+                authorizeRequests
+                    .requestMatchers("/api/public/**").permitAll()  // Public endpoints
+                    .anyRequest().authenticated()  // All other endpoints require authentication
+            )
+            //.httpBasic(withDefaults());  // Enable basic authentication with default settings // Disabling it for now to add JWT filter
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // Add JWT filter before username/password filter
+
+        return http.build();
+    }
+}

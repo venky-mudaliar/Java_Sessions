@@ -1,0 +1,6 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+public class AuthRequest {
+	private String username;
+    private String password;
+}

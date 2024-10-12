@@ -1,0 +1,14 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class AuthResponse {
+	private String jwt;
+    public AuthResponse(String jwt) {
+        this.jwt = jwt;
+    }
+    public String getJwt() {
+        return jwt;
+    }
+}

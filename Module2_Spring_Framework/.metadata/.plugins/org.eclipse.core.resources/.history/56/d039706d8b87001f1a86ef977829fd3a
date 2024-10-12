@@ -1,0 +1,66 @@
+package com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    // Temporary list to simulate a database
+    private List<User> users = new ArrayList<>();
+
+    // GET all users
+    @GetMapping
+    public List<User> getAllUsers() {
+    	System.out.println("--------GetAllUsers request--------");
+        return users;
+    }
+
+    // GET a specific user by ID
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+    	System.out.println("--------GetUserbyID request--------");
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+            	System.out.println("User Returned:"+user.toString());
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // POST to create a new user
+    @PostMapping
+    public User createUser(@RequestBody User newUser) {
+        users.add(newUser);
+        return newUser;
+    }
+
+    // PUT to update an existing user
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+                user.setFirstName(updatedUser.getFirstName());
+                user.setLastName(updatedUser.getLastName());
+                user.setEmail(updatedUser.getEmail());
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // DELETE a user by ID
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getId().equals(id)) {
+                users.remove(i);
+                break;
+            }
+        }
+    }
+}

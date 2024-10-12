@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="Exceptions.InsufficientFundsException"/>
+    <fullyQualifiedTypeName name="blueprints.BankAccount"/>
+    <fullyQualifiedTypeName name="blueprints.SavingsAccount"/>
+    <fullyQualifiedTypeName name="blueprints.SavingsAccountPrint"/>
+    <fullyQualifiedTypeName name="blueprints.CheckingAccount"/>
+    <fullyQualifiedTypeName name="exceptions.InsufficientFundsException"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,5 @@
+package com.lazycoffee.Ch1_Introduction_To_Spring;
+
+public class HelloWorldController {
+
+}

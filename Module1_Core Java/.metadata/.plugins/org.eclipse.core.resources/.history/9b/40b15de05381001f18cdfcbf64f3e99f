@@ -1,0 +1,75 @@
+import java.util.Comparator;
+
+public class Ch38_Comparator_Comparable {
+	public static void main(String[] args) {
+        // Example using Comparable (sort by id)
+        comparableExample();
+
+        // Example using Comparator (sort by name)
+        comparatorExample();
+    }
+
+    public static void comparableExample() {
+        // Creating a list of MyClass objects
+        List<MyClass> list = new ArrayList<>();
+        list.add(new MyClass(3, "Charlie"));
+        list.add(new MyClass(1, "Alice"));
+        list.add(new MyClass(2, "Bob"));
+
+        // Sorting the list using Comparable (by id)
+        Collections.sort(list);
+
+        // Printing the sorted list (sorted by id in ascending order)
+        System.out.println("Comparable (sorted by id):");
+        for (MyClass item : list) {
+            System.out.println(item);
+        }
+    }
+
+    public static void comparatorExample() {
+        // Creating a list of MyClass objects
+        List<MyClass> list = new ArrayList<>();
+        list.add(new MyClass(3, "Charlie"));
+        list.add(new MyClass(1, "Alice"));
+        list.add(new MyClass(2, "Bob"));
+
+        // Sorting the list by name using Comparator
+        Collections.sort(list, MyClass.compareByName);
+
+        // Printing the sorted list (sorted by name in ascending order)
+        System.out.println("Comparator (sorted by name):");
+        for (MyClass item : list) {
+            System.out.println(item);
+        }
+    }
+}
+
+// MyClass implementing Comparable interface to sort by id
+class MyClass implements Comparable<MyClass> {
+    private int id;
+    private String name;
+
+    public MyClass(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // Implementing the compareTo method to sort by id
+    @Override
+    public int compareTo(MyClass other) {
+        return Integer.compare(this.id, other.id);
+    }
+
+    // Comparator to sort by name
+    public static Comparator<MyClass> compareByName = new Comparator<MyClass>() {
+        @Override
+        public int compare(MyClass o1, MyClass o2) {
+            return o1.name.compareTo(o2.name);
+        }
+    };
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name;
+    }
+}

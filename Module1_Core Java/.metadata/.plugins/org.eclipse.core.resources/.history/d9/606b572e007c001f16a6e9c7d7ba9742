@@ -1,0 +1,39 @@
+package application;
+
+import blueprints.BankAccount;
+
+public class BankSystem {
+	public static void main(String[] args)
+	{
+		// CHAPTER - PBJECTS
+		// Creating objects (Bank Accounts) from the BankAccount class
+        BankAccount simpleBankObject = new BankAccount();
+        simpleBankObject.accountHolderName = "LazyCoffee"; // Setting the account holder name
+        simpleBankObject.accountNumber = "24";             // Setting the account number
+        simpleBankObject.balance = 1500;                   // Setting an initial balance
+
+        // CHAPTER - METHODS
+        // Accessing the behavior (methods) of the objects
+        // Instance Method: Checking the balance of the account
+        simpleBankObject.checkBalance();
+
+        // Static Method: Getting the bank name without creating an object
+        System.out.println("Bank Name: " + BankAccount.getBankName());
+
+        // Void Method: Depositing an amount of money
+        simpleBankObject.deposit(2500);  // Depositing 2500
+
+        // Parameterized Method: Withdrawing an amount of money
+        simpleBankObject.withdraw(500);  // Withdrawing 500
+
+        // Check balance again after transactions
+        simpleBankObject.checkBalance();
+        
+        
+        /// CHAPTER - METHOD OVERLOADING
+        // Calling different overloaded versions of the deposit method
+        simpleBankObject.deposit(100.0);  // Simple deposit
+        simpleBankObject.deposit(200.0, "Monthly Salary Deposit");  // Deposit with a message
+        simpleBankObject.deposit("CHK123456", 500.0);  // Deposit via check
+	}
+}

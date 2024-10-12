@@ -1,0 +1,28 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+
+public class Ch4_Separators_Keywords_EscapeSequences {
+
+    // Method demonstrating parentheses (), semicolon ;, comma , and period .
+    public static void main(String[] args) {
+    	
+    	// Comma , separates multiple variables in declaration and multiple arguments in method call
+        int a = 5, b = 10, c = 15;
+        System.out.println("Sum of a, b, and c: " + (a + b + c));
+        if(a>b) {
+        	System.out.println("a>b");
+        }
+        else {
+        	System.out.println("a<=b");
+        }
+        
+        // Demonstrating Escapre Sequences
+        System.out.println("First Line\nSecond Line");
+        System.out.println("Tabbed\tText");
+        System.out.println("This is a backslash: \\");
+        System.out.println("Quotes: \"Hello World\"");
+        System.out.println("Unicode character: \u00A9");
+        System.out.println("Unicode character: \u03A3");
+    }
+}

@@ -1,0 +1,167 @@
+
+import javax.sql.rowset.JdbcRowSet;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.WebRowSet;
+import javax.sql.rowset.RowSetProvider;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+
+
+public class Ch46_RowSet_Interface {
+
+	 public static void main(String[] args) {
+		 Ch46_RowSet_Interface system = new Ch46_RowSet_Interface();
+	        
+	        // Run the JdbcRowSet example
+	        System.out.println("Running JdbcRowSet Example:");
+	        system.runJdbcRowSetExample();
+
+	        // Run the CachedRowSet example
+	        System.out.println("\nRunning CachedRowSet Example:");
+	        system.runCachedRowSetExample();
+
+	        // Run the WebRowSet example
+	        System.out.println("\nRunning WebRowSet Example:");
+	        system.runWebRowSetExample();
+	    }
+
+	    // Method for JdbcRowSet Example
+	    public void runJdbcRowSetExample() {
+	        JdbcRowSet rowSet = null;
+
+	        try {
+	            // Create a JdbcRowSet instance
+	            rowSet = RowSetProvider.newFactory().createJdbcRowSet();
+
+	         // Step 2: Establish the connection to the PostgreSQL database
+	            String url = "jdbc:postgresql://localhost:5432/bankdatabase";  // URL for PostgreSQL database
+	            String username = "postgres";  // Database username
+	            String password = "lazycoffee";   // Database password
+
+	            // Set the SQL command to execute
+	            rowSet.setCommand("SELECT * FROM customers WHERE customer_id < 5");
+
+	            // Execute the query
+	            rowSet.execute();
+
+	            // Scroll through the rows and display customer details
+	            while (rowSet.next()) {
+	                int customerId = rowSet.getInt("customer_id");
+	                String firstName = rowSet.getString("first_name");
+	                String lastName = rowSet.getString("last_name");
+	                String email = rowSet.getString("email");
+
+	                System.out.println("Customer ID: " + customerId);
+	                System.out.println("First Name: " + firstName);
+	                System.out.println("Last Name: " + lastName);
+	                System.out.println("Email: " + email);
+	                System.out.println("------------------------");
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (rowSet != null) rowSet.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    // Method for CachedRowSet Example
+	    public void runCachedRowSetExample() {
+	        CachedRowSet cachedRowSet = null;
+
+	        try {
+	            // Create a CachedRowSet instance
+	            cachedRowSet = RowSetProvider.newFactory().createCachedRowSet();
+
+	            // Set the database connection details for PostgreSQL
+	            cachedRowSet.setUrl("jdbc:postgresql://localhost:5432/bankdb");
+	            cachedRowSet.setUsername("username");
+	            cachedRowSet.setPassword("password");
+
+	            // Set the SQL command to execute
+	            cachedRowSet.setCommand("SELECT * FROM accounts WHERE balance > 1000");
+
+	            // Execute the query and populate the CachedRowSet
+	            cachedRowSet.execute();
+
+	            // Manipulate the data offline
+	            while (cachedRowSet.next()) {
+	                int accountId = cachedRowSet.getInt("account_id");
+	                double balance = cachedRowSet.getDouble("balance");
+
+	                // Example of updating the balance offline
+	                if (balance > 5000) {
+	                    cachedRowSet.updateDouble("balance", balance - 500);
+	                    cachedRowSet.updateRow();
+	                }
+
+	                System.out.println("Account ID: " + accountId + ", Updated Balance: " + cachedRowSet.getDouble("balance"));
+	            }
+
+	            // Reconnect to the database and sync changes
+	            cachedRowSet.acceptChanges();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (cachedRowSet != null) cachedRowSet.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    // Method for WebRowSet Example
+	    public void runWebRowSetExample() {
+	        WebRowSet webRowSet = null;
+
+	        try {
+	            // Create a WebRowSet instance
+	            webRowSet = RowSetProvider.newFactory().createWebRowSet();
+
+	            // Set the database connection details for PostgreSQL
+	            webRowSet.setUrl("jdbc:postgresql://localhost:5432/bankdb");
+	            webRowSet.setUsername("username");
+	            webRowSet.setPassword("password");
+
+	            // Set the SQL command to execute
+	            webRowSet.setCommand("SELECT * FROM transactions WHERE account_id = 1");
+
+	            // Execute the query and populate the WebRowSet
+	            webRowSet.execute();
+
+	            // Serialize the WebRowSet to XML
+	            FileOutputStream fos = new FileOutputStream("transactions.xml");
+	            webRowSet.writeXml(fos);
+	            fos.close();
+
+	            // Deserialize the WebRowSet from XML
+	            FileInputStream fis = new FileInputStream("transactions.xml");
+	            webRowSet.readXml(fis);
+	            fis.close();
+
+	            // Display the deserialized data
+	            while (webRowSet.next()) {
+	                int transactionId = webRowSet.getInt("transaction_id");
+	                double amount = webRowSet.getDouble("amount");
+	                String transactionDate = webRowSet.getString("transaction_date");
+
+	                System.out.println("Transaction ID: " + transactionId + ", Amount: $" + amount + ", Date: " + transactionDate);
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (webRowSet != null) webRowSet.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}

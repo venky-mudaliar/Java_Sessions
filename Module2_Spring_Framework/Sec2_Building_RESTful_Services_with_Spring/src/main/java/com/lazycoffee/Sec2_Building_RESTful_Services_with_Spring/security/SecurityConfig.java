@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.lazycoffee.Sec2_Building_RESTful_Services_with_Spring.jwtutils.JwtAuthenticationFilter;
+
 import static org.springframework.security.config.Customizer.withDefaults;  
 // Import this for `withDefaults()` part of the Spring Security package that allows configuring default settings for certain components, like httpBasic()
 
@@ -18,7 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	
+	 private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+	    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+	        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+	    }
+	    
+	    
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -27,15 +35,20 @@ public class SecurityConfig {
         	.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/api/public/**").permitAll()  // Public endpoints
+                    .requestMatchers("/api/authenticate/**").permitAll()
                     .anyRequest().authenticated()  // All other endpoints require authentication
             )
-            .httpBasic(withDefaults());  // Enable basic authentication with default settings // Disabling it for now to add JWT filter
-            
+            //.httpBasic(withDefaults());  // Enable basic authentication with default settings // Disabling it for now to add JWT filter
+        	.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // Add JWT filter
 
         return http.build();
     }
     
     // Define the AuthenticationManager bean explicitly
     // AuthenticationManager is no longer automatically exposed as a bean, so you need to explicitly configure it in your SecurityConfig
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
    
 }
