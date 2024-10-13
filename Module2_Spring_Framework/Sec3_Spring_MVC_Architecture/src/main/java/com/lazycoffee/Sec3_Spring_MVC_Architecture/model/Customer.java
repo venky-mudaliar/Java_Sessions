@@ -1,5 +1,7 @@
 package com.lazycoffee.Sec3_Spring_MVC_Architecture.model;
 
+import com.lazycoffee.Sec3_Spring_MVC_Architecture.utils.ValidPhoneNumber;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,6 +19,9 @@ public class Customer {
     @NotBlank(message = "Email is required")
     @Email(message = "Please provide a valid email address")
     private String email;
+    
+    @ValidPhoneNumber(message = "Please provide a valid phone number")
+    private String phoneNumber;
 
     // Getters and Setters
 
@@ -43,4 +48,14 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+    
+    
 }
